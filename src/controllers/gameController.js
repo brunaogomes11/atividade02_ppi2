@@ -2,7 +2,7 @@ const Game = require('../models/Game');
 const mongoose = require('mongoose');
 
 // Criar um novo game
-const criarGame = async (req, res, next) => {
+async function criarGame(req, res, next) {
   try {
     const { titulo, genero, plataforma, lancamento } = req.body;
 
@@ -14,7 +14,6 @@ const criarGame = async (req, res, next) => {
     });
 
     res.status(201).json({
-      sucesso: true,
       mensagem: 'Game criado com sucesso!',
       dados: novoGame
     });
@@ -24,13 +23,12 @@ const criarGame = async (req, res, next) => {
 };
 
 // Listar todos os games
-const listarGames = async (req, res, next) => {
+async function listarGames(req, res, next) {
   try {
     const games = await Game.find().sort({ createdAt: -1 });
 
     res.status(200).json({
-      sucesso: true,
-      quantidade: games.length,
+      quantidade_total: games.length,
       dados: games
     });
   } catch (error) {
@@ -39,14 +37,13 @@ const listarGames = async (req, res, next) => {
 };
 
 // Buscar game por ID
-const buscarGamePorId = async (req, res, next) => {
+async function buscarGamePorId(req, res, next) {
   try {
     const { id } = req.params;
 
     // Validar se o ID é válido
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
-        sucesso: false,
         mensagem: 'ID inválido'
       });
     }
@@ -55,13 +52,11 @@ const buscarGamePorId = async (req, res, next) => {
 
     if (!game) {
       return res.status(404).json({
-        sucesso: false,
         mensagem: 'Game não encontrado'
       });
     }
 
     res.status(200).json({
-      sucesso: true,
       dados: game
     });
   } catch (error) {
@@ -70,7 +65,7 @@ const buscarGamePorId = async (req, res, next) => {
 };
 
 // Atualizar game
-const atualizarGame = async (req, res, next) => {
+async function atualizarGame(req, res, next) {
   try {
     const { id } = req.params;
     const { titulo, genero, plataforma, lancamento } = req.body;
@@ -93,13 +88,11 @@ const atualizarGame = async (req, res, next) => {
 
     if (!gameAtualizado) {
       return res.status(404).json({
-        sucesso: false,
         mensagem: 'Game não encontrado'
       });
     }
 
     res.status(200).json({
-      sucesso: true,
       mensagem: 'Game atualizado com sucesso!',
       dados: gameAtualizado
     });
@@ -109,14 +102,13 @@ const atualizarGame = async (req, res, next) => {
 };
 
 // Deletar game
-const deletarGame = async (req, res, next) => {
+async function deletarGame(req, res, next) {
   try {
     const { id } = req.params;
 
     // Validar se o ID é válido
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
-        sucesso: false,
         mensagem: 'ID inválido'
       });
     }
@@ -125,15 +117,12 @@ const deletarGame = async (req, res, next) => {
 
     if (!gameDeletado) {
       return res.status(404).json({
-        sucesso: false,
         mensagem: 'Game não encontrado'
       });
     }
 
     res.status(200).json({
-      sucesso: true,
-      mensagem: 'Game deletado com sucesso!',
-      dados: gameDeletado
+      mensagem: 'Game deletado com sucesso!'
     });
   } catch (error) {
     next(error);

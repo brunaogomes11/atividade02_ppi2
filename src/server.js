@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true })); // Parser de URL encoded
 app.use(logRequests); // Middleware de log de requisições
 
 // Rota de health check
-app.get('/', (req, res) => {
+app.get('/', function(req, res) {
   res.json({
     sucesso: true,
     mensagem: '🎮 API de Games está rodando!',
@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 app.use('/api/games', gameRoutes);
 
 // Rota para endpoints não encontrados
-app.use((req, res) => {
+app.use(function(req, res) {
   res.status(404).json({
     sucesso: false,
     mensagem: 'Rota não encontrada'
@@ -45,7 +45,7 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 // Iniciar servidor
-app.listen(PORT, () => {
+app.listen(PORT, function() {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
   console.log(`📍 http://localhost:${PORT}`);
 });

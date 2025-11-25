@@ -1,5 +1,5 @@
 // Middleware para registrar (log) cada requisição recebida
-const logRequests = (req, res, next) => {
+function logRequests(req, res, next) {
   const timestamp = new Date().toISOString();
   const method = req.method;
   const url = req.originalUrl || req.url;

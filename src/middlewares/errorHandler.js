@@ -1,5 +1,5 @@
 // Middleware centralizado para tratamento de erros
-const errorHandler = (err, req, res, next) => {
+function errorHandler(err, req, res, next) {
   console.error('❌ Erro capturado:', err);
 
   // Erro de validação do Mongoose
